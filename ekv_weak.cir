@@ -1,0 +1,23 @@
+.subckt nmos_ekv D G S B params: VT0=0.45 KAPPA=0.7 IS=1e-12
+
+G1 D S value = { IS*(log(1 + exp((KAPPA*(V(G,S)-VT0))/(2*0.0259))))**2 }
+
+.ends nmos_ekv
+
+
+VGS g 0 0
+VDS d 0 50m
+VBS b 0 0
+
+
+X1 d g 0 b nmos_ekv VT0=0.45 KAPPA=0.7 IS=1e-12
+
+.dc VGS 0 1.2 1m
+.temp 300
+
+.control
+run
+plot log(abs(i(VDS)))
+.endc
+
+.end
